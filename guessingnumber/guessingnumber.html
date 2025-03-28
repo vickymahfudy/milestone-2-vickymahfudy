@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game - RevoFun</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="guessingnumber.css">
+</head>
+<body>
+    <header>
+        <h1>Number Guessing Game</h1>
+        <p>Guess the number between 1 and 100!</p>
+    </header>
+
+    <main class="game-container">
+        <input type="number" id="guessInput" class="game-input" min="1" max="100">
+        <button onclick="checkGuess()" id="submitGuess" class="game-button">Submit Guess</button>
+        <p id="message"></p>
+
+        <div class="stats">
+            <p>Guessed Numbers: <span id="guessedNumbers">-</span></p>
+            <p>Attempts Left: <span id="attempts">0</span></p>
+            <p>High Score: <span id="highScore">-</span></p>
+        </div>
+        
+        <button onclick="resetGame()" class="game-button">New Game</button>
+        <br>
+        <a href="../index.html" class="home-button">Back to Home</a>
+    </main>
+
+    <script src="guessingnumber.js"></script>
+</body>
+</html>
