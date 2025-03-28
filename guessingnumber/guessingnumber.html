@@ -6,14 +6,21 @@
     <title>Number Guessing Game - RevoFun</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="guessingnumber.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Number Guessing Game</h1>
-        <p>Guess the number between 1 and 100!</p>
+    <header class="hero-header">
+        <div class="header-content">
+            <h1 class="main-title">Number Guessing Game</h1>
+            <h2 class="sub-title">Test Your Luck!</h2>
+            <div class="header-description">
+                <p class="welcome-text">Can you guess the number between 1 and 100? You have 10 attempts to find it. Good luck!</p>
+            </div>
+        </div>
+        <div class="header-background"></div>
     </header>
 
-    <main class="game-container">
+    <div class="game-container">
         <input type="number" id="guessInput" class="game-input" min="1" max="100">
         <button onclick="checkGuess()" id="submitGuess" class="game-button">Submit Guess</button>
         <p id="message"></p>

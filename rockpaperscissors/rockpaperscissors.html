@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - RevoFun</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="rockpaperscissors.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="hero-header">
+        <div class="header-content">
+            <h1 class="main-title">Rock Paper Scissors</h1>
+            <h2 class="sub-title">Challenge the Computer!</h2>
+            <div class="header-description">
+                <p class="welcome-text">Test your luck and strategy in this classic game. Choose your move wisely and try to outsmart your opponent!</p>
+            </div>
+        </div>
+        <div class="header-background"></div>
+    </header>
+
+    <div class="game-container">
+        <div class="score-board">
+            <div class="score">
+                <p>Player</p>
+                <span id="playerScore">0</span>
+            </div>
+            <div class="score">
+                <p>Computer</p>
+                <span id="computerScore">0</span>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="choices">
+                <button class="choice" data-choice="rock">✊</button>
+                <button class="choice" data-choice="paper">✋</button>
+                <button class="choice" data-choice="scissors">✌️</button>
+            </div>
+            
+            <div class="result">
+                <div class="hands">
+                    <div id="playerHand" class="hand">❔</div>
+                    <div class="vs">VS</div>
+                    <div id="computerHand" class="hand">❔</div>
+                </div>
+                <p id="message">Choose your move!</p>
+            </div>
+        </div>
+
+        <button id="resetGame" class="game-button">New Game</button>
+        <br>
+        <a href="../index.html" class="home-button">Back to Home</a>
+    </div>
+    <script src="rockpaperscissors.js"></script>
+</body>
+</html>
