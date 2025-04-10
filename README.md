@@ -1,5 +1,7 @@
 # RevoFun – Play, Connect, and Have Fun!
 
+[![Play Now](https://img.shields.io/badge/Play%20Now-RevoFun-8A2BE2?style=for-the-badge)](https://vickymahfudy.github.io/milestone-2-vickymahfudy/)
+
 Welcome to RevoFun, the ultimate destination for casual gamers who love quick, entertaining, and engaging browser-based games! Whether you're looking to challenge your reflexes, test your logic, or just unwind with fun mini-games, RevoFun has something for everyone.
 
 ## 🎮 Who We Are
