@@ -338,3 +338,31 @@ footer {
         gap: 1.5rem;
     }
 }
+
+.coming-soon {
+    opacity: 0.8;
+    position: relative;
+}
+
+.coming-soon::before {
+    content: 'Coming Soon';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.coming-soon .play-button {
+    background: #4b5563;
+    cursor: not-allowed;
+}
+
+.coming-soon .play-button:hover {
+    transform: none;
+    box-shadow: none;
+}
