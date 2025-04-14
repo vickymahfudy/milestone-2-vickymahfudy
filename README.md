@@ -30,22 +30,41 @@ Join us on RevoFun and let the games begin! 🎉
   - Immediate feedback (too high/too low)
   - Mobile responsive design
 
-### 2. Coming Soon
-- More exciting games in development
+### 2. Rock Paper Scissors
+- Classic hand game against the computer
+- Features:
+  - Real-time score tracking
+  - Animated selections
+  - Best-of-five rounds
+  - Intuitive controls
+  - Responsive design
+
+### 3. Chicken Road Cross
+- Guide your chicken safely across busy traffic
+- Features:
+  - Dynamic difficulty scaling
+  - High score system
+  - Arrow key controls
+  - Increasing car speeds
+  - Progressive challenge
+  - Responsive gameplay
 
 ## Technologies Used
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
+- Local Storage for game states and high scores
 
 ## Features
 - Responsive design for all devices
 - Clean and intuitive user interface
-- Local storage for saving high scores
+- Persistent high scores
 - Easy navigation between games
+- Modern gradient UI elements
+- Smooth animations and transitions
 
 ## Getting Started
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/RevoFun.git
+git clone https://github.com/vickymahfudy/milestone-2-vickymahfudy.git
 ```
