@@ -1,0 +1,214 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #000000;
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
+
+.hero-header {
+    position: relative;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+}
+
+.main-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #fff, #a991f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.sub-title {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.welcome-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1a1a1a, #2d1810);
+    z-index: 1;
+}
+
+.header-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(169, 145, 247, 0.15) 0%, transparent 70%);
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto 5rem;
+    padding: 2rem;
+    background-color: #2d2d2d;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+}
+
+#score, #highScore {
+    font-size: 2rem;
+    color: #a991f7;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #a991f7, #8b5cf6);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.back-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Keep your existing game-specific styles */
+#game-area {
+    width: 1000px;
+    height: 500px;
+    border: 3px solid #333;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    border-radius: 10px;
+    background: linear-gradient(
+        to bottom,
+        #90EE90 0px,
+        #90EE90 100px,
+        #404040 100px,
+        #404040 400px,
+        #90EE90 400px,
+        #90EE90 500px
+    );
+}
+
+#chicken {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    bottom: 20px;
+    left: 480px;
+    font-size: 35px;
+    line-height: 40px;
+    user-select: none;
+    z-index: 2;
+}
+
+.car {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    font-size: 45px;
+    line-height: 50px;
+    user-select: none;
+    z-index: 1;
+}
+
+@media (max-width: 1100px) {
+    .main-title {
+        font-size: 3rem;
+    }
+    
+    .sub-title {
+        font-size: 1.5rem;
+    }
+    
+    #game-area {
+        width: 90vw;
+        height: 45vw;
+    }
+    
+    .game-container {
+        width: 95vw;
+        padding: 1rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    button, .back-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}

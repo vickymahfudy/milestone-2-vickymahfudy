@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken Crossing Road - RevoFun</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="chickengame.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="hero-header">
+        <div class="header-content">
+            <h1 class="main-title">Chicken Road Cross</h1>
+            <h2 class="sub-title">Challenge the Traffic!</h2>
+            <div class="header-description">
+                <p class="welcome-text">Test your timing and strategy in this classic game. Guide your chicken safely across the busy road and see how many points you can score!</p>
+            </div>
+        </div>
+        <div class="header-background"></div>
+    </header>
+
+    <div class="game-container">
+        <div class="score-container">
+            <div id="score">Score: 0</div>
+            <div id="highScore">High Score: 0</div>
+        </div>
+        <div id="game-area">
+            <div id="chicken">🐔</div>
+        </div>
+        <div class="controls">
+            <button onclick="startGame()">Start Game</button>
+            <a href="../index.html" class="back-button">Back to Home</a>
+        </div>
+    </div>
+    <script src="chickengame.js"></script>
+</body>
+</html>
