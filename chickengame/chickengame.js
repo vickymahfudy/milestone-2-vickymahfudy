@@ -10,11 +10,13 @@ const gameConfig = {
 };
 
 // Game State Variables
-let gameInterval;
-let score = 0;
-let isGameRunning = false;
-let activeCars = 0;
-let highScore = parseInt(localStorage.getItem('chickenGameHighScore')) || 0;
+const gameState = {
+    score: 0,
+    isGameRunning: false,
+    activeCars: [],
+    highScore: parseInt(localStorage.getItem('chickenGameHighScore')) || 0,
+    gameInterval: null
+};
 
 // DOM Elements
 const chicken = document.getElementById('chicken');
@@ -23,35 +25,35 @@ const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('highScore');
 
 // Initialize high score display
-highScoreDisplay.textContent = `High Score: ${highScore}`;
+highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
 
 function startGame() {
-    if (isGameRunning) return;
+    if (gameState.isGameRunning) return;
     
-    isGameRunning = true;
-    score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
+    gameState.isGameRunning = true;
+    gameState.score = 0;
+    scoreDisplay.textContent = `Score: ${gameState.score}`;
     
     // Reset chicken position
     chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
     chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
     
-    gameInterval = setInterval(spawnCar, gameConfig.carSpawnInterval);
+    gameState.gameInterval = setInterval(spawnCar, gameConfig.carSpawnInterval);
     document.addEventListener('keydown', moveChicken);
 }
 
 function checkScore() {
     const currentBottom = parseInt(chicken.style.bottom) || 0;
     if (currentBottom >= gameConfig.safeZoneTop) {
-        score += gameConfig.scoreIncrement;
-        scoreDisplay.textContent = `Score: ${score}`;
+        gameState.score += gameConfig.scoreIncrement;
+        scoreDisplay.textContent = `Score: ${gameState.score}`;
         chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
         chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
     }
 }
 
 function spawnCar() {
-    if (activeCars >= gameConfig.maxActiveCars) return;
+    if (gameState.activeCars.length >= gameConfig.maxActiveCars) return;
     
     const car = document.createElement('div');
     car.className = 'car';
@@ -74,12 +76,11 @@ function spawnCar() {
     car.style.top = `${newCarTop}px`;
     car.style.left = spawnFromRight ? '1000px' : '-60px';
     
-    activeCars++;
     gameArea.appendChild(car);
     
     // Calculate speed based on score
     const baseSpeed = 1 + Math.random() * 5;
-    const speedMultiplier = 1 + (score / 50); // Increase speed by 2% for every 10 points
+    const speedMultiplier = 1 + (gameState.score / 50);
     const speed = baseSpeed * speedMultiplier;
     
     const carInterval = setInterval(() => {
@@ -88,7 +89,7 @@ function spawnCar() {
             if (currentLeft < -60) {
                 clearInterval(carInterval);
                 car.remove();
-                activeCars--;
+                gameState.activeCars = gameState.activeCars.filter(c => c.element !== car);
             } else {
                 car.style.left = `${currentLeft - speed}px`;
             }
@@ -96,35 +97,43 @@ function spawnCar() {
             if (currentLeft > 1000) {
                 clearInterval(carInterval);
                 car.remove();
-                activeCars--;
+                gameState.activeCars = gameState.activeCars.filter(c => c.element !== car);
             } else {
                 car.style.left = `${currentLeft + speed}px`;
             }
         }
         checkCollision(car);
     }, 12);
+
+    gameState.activeCars.push({
+        element: car,
+        interval: carInterval
+    });
 }
 
 function endGame() {
-    isGameRunning = false;
-    clearInterval(gameInterval);
+    gameState.isGameRunning = false;
+    clearInterval(gameState.gameInterval);
     document.removeEventListener('keydown', moveChicken);
     
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('chickenGameHighScore', highScore);
-        highScoreDisplay.textContent = `High Score: ${highScore}`;
+    if (gameState.score > gameState.highScore) {
+        gameState.highScore = gameState.score;
+        localStorage.setItem('chickenGameHighScore', gameState.highScore);
+        highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
     }
     
-    alert(`Game Over! Your score: ${score}\nHigh Score: ${highScore}`);
+    alert(`Game Over! Your score: ${gameState.score}\nHigh Score: ${gameState.highScore}`);
     
-    const cars = document.querySelectorAll('.car');
-    cars.forEach(car => car.remove());
-    activeCars = 0;
+    // Clear all cars
+    gameState.activeCars.forEach(car => {
+        clearInterval(car.interval);
+        car.element.remove();
+    });
+    gameState.activeCars = [];
 }
 
 function moveChicken(event) {
-    if (!isGameRunning) return;
+    if (!gameState.isGameRunning) return;
     
     // Prevent default scrolling behavior for arrow keys
     if (event.key.startsWith('Arrow')) {

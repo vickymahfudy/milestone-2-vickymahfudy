@@ -34,31 +34,38 @@ function computerPlay() {
 
 function playRound(playerChoice) {
     const computerChoice = computerPlay();
-    
     updateHandsDisplay(playerChoice, computerChoice);
     
-    if (playerChoice === computerChoice) {
-        displayResult("It's a tie!", 'yellow');
-        return;
+    const gameOutcome = determineOutcome(playerChoice, computerChoice);
+    
+    switch (gameOutcome) {
+        case 'tie':
+            displayResult(`It's a tie!`, 'yellow');
+            break;
+        case 'win':
+            playerScore++;
+            displayResult(
+                `You win! ${gameConfig.choices[playerChoice]} beats ${gameConfig.choices[computerChoice]}`,
+                'green'
+            );
+            break;
+        case 'lose':
+            computerScore++;
+            displayResult(
+                `You lose! ${gameConfig.choices[computerChoice]} beats ${gameConfig.choices[playerChoice]}`,
+                'red'
+            );
+            break;
     }
     
-    const playerWins = gameConfig.winConditions[playerChoice] === computerChoice;
-    
-    if (playerWins) {
-        playerScore++;
-        displayResult(
-            `You win! ${gameConfig.choices[playerChoice]} beats ${gameConfig.choices[computerChoice]}`,
-            'green'
-        );
-    } else {
-        computerScore++;
-        displayResult(
-            `You lose! ${gameConfig.choices[computerChoice]} beats ${gameConfig.choices[playerChoice]}`,
-            'red'
-        );
+    if (gameOutcome !== 'tie') {
+        updateScore();
     }
-    
-    updateScore();
+}
+
+function determineOutcome(playerChoice, computerChoice) {
+    if (playerChoice === computerChoice) return 'tie';
+    return gameConfig.winConditions[playerChoice] === computerChoice ? 'win' : 'lose';
 }
 
 // UI Update Functions
@@ -83,7 +90,7 @@ function resetGame() {
     updateScore();
     elements.playerHand.textContent = gameConfig.defaultHand;
     elements.computerHand.textContent = gameConfig.defaultHand;
-    elements.message.textContent = "Choose your move!";
+    elements.message.textContent = `Choose your move!`;
 }
 
 // Event Listeners

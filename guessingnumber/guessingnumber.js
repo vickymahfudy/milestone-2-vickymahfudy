@@ -60,22 +60,6 @@ function checkGuess() {
     elements.guessInput.value = '';
 }
 
-function isValidGuess(guess) {
-    if (isNaN(guess) || guess < gameConfig.minNumber || guess > gameConfig.maxNumber) {
-        displayMessage(`Please enter a valid number between ${gameConfig.minNumber} and ${gameConfig.maxNumber}`, 'red');
-        return false;
-    }
-    return true;
-}
-
-function isDuplicateGuess(guess) {
-    if (guessedNumbers.includes(guess)) {
-        displayMessage('You already guessed that number. Try again.', 'red');
-        return true;
-    }
-    return false;
-}
-
 function updateGameState(guess) {
     guessedNumbers.push(guess);
     elements.guessedNumbers.textContent = guessedNumbers.join(', ');
@@ -85,6 +69,18 @@ function updateGameState(guess) {
 
 function isWinningGuess(guess) {
     return guess === targetNumber;
+}
+
+function updateFeedback(guess) {
+    const comparison = Math.sign(guess - targetNumber);
+    switch (comparison) {
+        case -1:
+            displayMessage(`Too low! Try a higher number.`, 'yellow');
+            break;
+        case 1:
+            displayMessage(`Too high! Try a lower number.`, 'yellow');
+            break;
+    }
 }
 
 function handleWin() {
@@ -98,12 +94,20 @@ function handleGameOver() {
     toggleInput();
 }
 
-function updateFeedback(guess) {
-    if (guess < targetNumber) {
-        displayMessage('Too low! Try a higher number.', 'yellow');
-    } else {
-        displayMessage('Too high! Try a lower number.', 'yellow');
+function isValidGuess(guess) {
+    if (isNaN(guess) || guess < gameConfig.minNumber || guess > gameConfig.maxNumber) {
+        displayMessage(`Please enter a valid number between ${gameConfig.minNumber} and ${gameConfig.maxNumber}`, 'red');
+        return false;
     }
+    return true;
+}
+
+function isDuplicateGuess(guess) {
+    if (guessedNumbers.includes(guess)) {
+        displayMessage(`You already guessed that number. Try again.`, 'red');
+        return true;
+    }
+    return false;
 }
 
 // Utility Functions
