@@ -1,10 +1,29 @@
+// Game Configuration
+const gameConfig = {
+    chickenStartPosition: { bottom: 20, left: 480 },
+    safeZoneTop: 460,
+    maxActiveCars: 20,
+    carSpawnInterval: 100,
+    scoreIncrement: 10,
+    movementStep: 50,
+    gameAreaBounds: { width: 960, height: 460 }
+};
+
+// Game State Variables
 let gameInterval;
 let score = 0;
 let isGameRunning = false;
+let activeCars = 0;
+let highScore = parseInt(localStorage.getItem('chickenGameHighScore')) || 0;
 
+// DOM Elements
 const chicken = document.getElementById('chicken');
 const gameArea = document.getElementById('game-area');
 const scoreDisplay = document.getElementById('score');
+const highScoreDisplay = document.getElementById('highScore');
+
+// Initialize high score display
+highScoreDisplay.textContent = `High Score: ${highScore}`;
 
 function startGame() {
     if (isGameRunning) return;
@@ -13,33 +32,26 @@ function startGame() {
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
     
-    // Reset chicken position to bottom safe zone
-    chicken.style.bottom = '20px';
-    chicken.style.left = '480px';
+    // Reset chicken position
+    chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
+    chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
     
-    // Start spawning cars with increased frequency
-    gameInterval = setInterval(spawnCar, 100); // Changed from 200 to 100
-    
-    // Enable keyboard controls
+    gameInterval = setInterval(spawnCar, gameConfig.carSpawnInterval);
     document.addEventListener('keydown', moveChicken);
 }
 
 function checkScore() {
     const currentBottom = parseInt(chicken.style.bottom) || 0;
-    if (currentBottom >= 460) { // Matches the top safe zone
-        score += 10;
+    if (currentBottom >= gameConfig.safeZoneTop) {
+        score += gameConfig.scoreIncrement;
         scoreDisplay.textContent = `Score: ${score}`;
-        chicken.style.bottom = '20px'; // Reset to bottom safe zone
-        chicken.style.left = '480px'; // Reset horizontal position
+        chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
+        chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
     }
 }
 
-// Remove the duplicate checkScore function at the bottom of the file
-// Add this at the top with other variables
-let activeCars = 0;
-
 function spawnCar() {
-    if (activeCars >= 20) return;
+    if (activeCars >= gameConfig.maxActiveCars) return;
     
     const car = document.createElement('div');
     car.className = 'car';
@@ -93,19 +105,11 @@ function spawnCar() {
     }, 12);
 }
 
-// Update endGame function to reset active cars counter
-// Add at the top with other variables
-const highScoreDisplay = document.getElementById('highScore');
-let highScore = parseInt(localStorage.getItem('chickenGameHighScore')) || 0;
-highScoreDisplay.textContent = `High Score: ${highScore}`;
-
-// Update the endGame function
 function endGame() {
     isGameRunning = false;
     clearInterval(gameInterval);
     document.removeEventListener('keydown', moveChicken);
     
-    // Update high score if current score is higher
     if (score > highScore) {
         highScore = score;
         localStorage.setItem('chickenGameHighScore', highScore);
@@ -114,7 +118,6 @@ function endGame() {
     
     alert(`Game Over! Your score: ${score}\nHigh Score: ${highScore}`);
     
-    // Remove all cars and reset counter
     const cars = document.querySelectorAll('.car');
     cars.forEach(car => car.remove());
     activeCars = 0;
@@ -166,35 +169,4 @@ function checkCollision(car) {
         chickenRect.bottom > carRect.top) {
         endGame();
     }
-}
-
-function checkScore() {
-    const currentBottom = parseInt(chicken.style.bottom) || 0;
-    if (currentBottom >= 400) { // Adjusted to match the road crossing
-        score += 10;
-        scoreDisplay.textContent = `Score: ${score}`;
-        chicken.style.bottom = '20px'; // Reset to bottom safe zone
-        chicken.style.left = '480px'; // Reset horizontal position
-    }
-}
-
-// Remove the duplicate endGame function at the bottom and keep only this one
-function endGame() {
-    isGameRunning = false;
-    clearInterval(gameInterval);
-    document.removeEventListener('keydown', moveChicken);
-    
-    // Update high score if current score is higher
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('chickenGameHighScore', highScore);
-        highScoreDisplay.textContent = `High Score: ${highScore}`;
-    }
-    
-    alert(`Game Over! Your score: ${score}\nHigh Score: ${highScore}`);
-    
-    // Remove all cars and reset counter
-    const cars = document.querySelectorAll('.car');
-    cars.forEach(car => car.remove());
-    activeCars = 0;
 }

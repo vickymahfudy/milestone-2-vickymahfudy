@@ -1,61 +1,89 @@
+// Game Configuration
+const gameConfig = {
+    choices: {
+        rock: '✊',
+        paper: '✋',
+        scissors: '✌️'
+    },
+    defaultHand: '❔',
+    winConditions: {
+        rock: 'scissors',
+        paper: 'rock',
+        scissors: 'paper'
+    }
+};
+
+// Game State
 let playerScore = 0;
 let computerScore = 0;
 
-const choices = {
-    rock: '✊',
-    paper: '✋',
-    scissors: '✌️'
+// DOM Elements
+const elements = {
+    playerHand: document.getElementById('playerHand'),
+    computerHand: document.getElementById('computerHand'),
+    playerScore: document.getElementById('playerScore'),
+    computerScore: document.getElementById('computerScore'),
+    message: document.getElementById('message')
 };
 
+// Game Logic Functions
 function computerPlay() {
-    const options = ['rock', 'paper', 'scissors'];
+    const options = Object.keys(gameConfig.choices);
     return options[Math.floor(Math.random() * options.length)];
 }
 
 function playRound(playerChoice) {
-    const messageElement = document.getElementById('message');
     const computerChoice = computerPlay();
     
-    // Update hands display
-    document.getElementById('playerHand').textContent = choices[playerChoice];
-    document.getElementById('computerHand').textContent = choices[computerChoice];
+    updateHandsDisplay(playerChoice, computerChoice);
     
-    // Determine winner
     if (playerChoice === computerChoice) {
-        messageElement.textContent = "It's a tie!";
-        messageElement.style.color = 'yellow';
+        displayResult("It's a tie!", 'yellow');
         return;
     }
     
-    if (
-        (playerChoice === 'rock' && computerChoice === 'scissors') ||
-        (playerChoice === 'paper' && computerChoice === 'rock') ||
-        (playerChoice === 'scissors' && computerChoice === 'paper')
-    ) {
+    const playerWins = gameConfig.winConditions[playerChoice] === computerChoice;
+    
+    if (playerWins) {
         playerScore++;
-        updateScore();
-        messageElement.textContent = 'You win! ' + choices[playerChoice] + ' beats ' + choices[computerChoice];
-        messageElement.style.color = 'green';
+        displayResult(
+            `You win! ${gameConfig.choices[playerChoice]} beats ${gameConfig.choices[computerChoice]}`,
+            'green'
+        );
     } else {
         computerScore++;
-        updateScore();
-        messageElement.textContent = 'You lose! ' + choices[computerChoice] + ' beats ' + choices[playerChoice];
-        messageElement.style.color = 'red';
+        displayResult(
+            `You lose! ${gameConfig.choices[computerChoice]} beats ${gameConfig.choices[playerChoice]}`,
+            'red'
+        );
     }
+    
+    updateScore();
+}
+
+// UI Update Functions
+function updateHandsDisplay(playerChoice, computerChoice) {
+    elements.playerHand.textContent = gameConfig.choices[playerChoice];
+    elements.computerHand.textContent = gameConfig.choices[computerChoice];
+}
+
+function displayResult(message, color) {
+    elements.message.textContent = message;
+    elements.message.style.color = color;
 }
 
 function updateScore() {
-    document.getElementById('playerScore').textContent = playerScore;
-    document.getElementById('computerScore').textContent = computerScore;
+    elements.playerScore.textContent = playerScore;
+    elements.computerScore.textContent = computerScore;
 }
 
 function resetGame() {
     playerScore = 0;
     computerScore = 0;
     updateScore();
-    document.getElementById('playerHand').textContent = '❔';
-    document.getElementById('computerHand').textContent = '❔';
-    messageElement.textContent = "Choose your move!";
+    elements.playerHand.textContent = gameConfig.defaultHand;
+    elements.computerHand.textContent = gameConfig.defaultHand;
+    elements.message.textContent = "Choose your move!";
 }
 
 // Event Listeners
