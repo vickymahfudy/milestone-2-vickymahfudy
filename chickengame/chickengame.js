@@ -52,23 +52,38 @@ function checkScore() {
     }
 }
 
+// Helper function to update car position and handle boundaries
+function updateCarPosition(car, currentLeft, speed, isMovingLeft) {
+    const outOfBounds = isMovingLeft ? currentLeft < -60 : currentLeft > 1000;
+    const newPosition = isMovingLeft ? currentLeft - speed : currentLeft + speed;
+    
+    if (outOfBounds) {
+        clearInterval(car.interval);
+        car.element.remove();
+        gameState.activeCars = gameState.activeCars.filter(c => c.element !== car.element);
+    } else {
+        car.element.style.left = `${newPosition}px`;
+    }
+}
+
 function spawnCar() {
     if (gameState.activeCars.length >= gameConfig.maxActiveCars) return;
     
     const car = document.createElement('div');
     car.className = 'car';
     
+    // Randomly determine car's spawn direction
     const spawnFromRight = Math.random() > 0.5;
     car.textContent = '🚗';
     car.style.transform = spawnFromRight ? 'scaleX(1)' : 'scaleX(-1)';
     
-    // Check for collision with other cars before spawning
-    const newCarTop = Math.random() * 250 + 120;
+    // Ensure minimum vertical distance between cars to prevent clustering
+    const newCarTop = Math.random() * 250 + 120; // Spawn between y=120 and y=370
     const existingCars = document.querySelectorAll('.car');
     
     for (let existingCar of existingCars) {
         const existingTop = parseInt(existingCar.style.top);
-        if (Math.abs(existingTop - newCarTop) < 60) {
+        if (Math.abs(existingTop - newCarTop) < 60) { // Minimum 60px vertical gap
             return;
         }
     }
@@ -78,37 +93,37 @@ function spawnCar() {
     
     gameArea.appendChild(car);
     
-    // Calculate speed based on score
+    // Dynamic speed calculation based on current score
     const baseSpeed = 1 + Math.random() * 5;
-    const speedMultiplier = 1 + (gameState.score / 50);
+    const speedMultiplier = 1 + (gameState.score / 50); // Increase speed by 2% per 50 points
     const speed = baseSpeed * speedMultiplier;
     
-    const carInterval = setInterval(() => {
+    const carData = {
+        element: car,
+        interval: null
+    };
+    
+    carData.interval = setInterval(() => {
         const currentLeft = parseInt(car.style.left);
-        if (spawnFromRight) {
-            if (currentLeft < -60) {
-                clearInterval(carInterval);
-                car.remove();
-                gameState.activeCars = gameState.activeCars.filter(c => c.element !== car);
-            } else {
-                car.style.left = `${currentLeft - speed}px`;
-            }
-        } else {
-            if (currentLeft > 1000) {
-                clearInterval(carInterval);
-                car.remove();
-                gameState.activeCars = gameState.activeCars.filter(c => c.element !== car);
-            } else {
-                car.style.left = `${currentLeft + speed}px`;
-            }
-        }
+        updateCarPosition(carData, currentLeft, speed, spawnFromRight);
         checkCollision(car);
     }, 12);
 
-    gameState.activeCars.push({
-        element: car,
-        interval: carInterval
-    });
+    gameState.activeCars.push(carData);
+}
+
+function checkCollision(car) {
+    // Get bounding rectangles for precise collision detection
+    const chickenRect = chicken.getBoundingClientRect();
+    const carRect = car.getBoundingClientRect();
+    
+    // Check for rectangle intersection on all sides
+    const collision = chickenRect.left < carRect.right &&
+        chickenRect.right > carRect.left &&
+        chickenRect.top < carRect.bottom &&
+        chickenRect.bottom > carRect.top;
+    
+    if (collision) endGame();
 }
 
 function endGame() {
@@ -165,17 +180,5 @@ function moveChicken(event) {
                 chicken.style.bottom = `${currentBottom - 50}px`;
             }
             break;
-    }
-}
-
-function checkCollision(car) {
-    const chickenRect = chicken.getBoundingClientRect();
-    const carRect = car.getBoundingClientRect();
-    
-    if (chickenRect.left < carRect.right &&
-        chickenRect.right > carRect.left &&
-        chickenRect.top < carRect.bottom &&
-        chickenRect.bottom > carRect.top) {
-        endGame();
     }
 }

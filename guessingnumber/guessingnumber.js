@@ -60,9 +60,14 @@ function checkGuess() {
     elements.guessInput.value = '';
 }
 
+// Updates game state and UI after each valid guess
+// Tracks guessed numbers, remaining attempts, and updates display
 function updateGameState(guess) {
+    // Add new guess to history and update display
     guessedNumbers.push(guess);
     elements.guessedNumbers.textContent = guessedNumbers.join(', ');
+    
+    // Decrement and update remaining attempts
     attempts--;
     elements.attempts.textContent = attempts;
 }
@@ -94,6 +99,8 @@ function handleGameOver() {
     toggleInput();
 }
 
+// Validates user input against game rules
+// Ensures guess is a number within valid range
 function isValidGuess(guess) {
     if (isNaN(guess) || guess < gameConfig.minNumber || guess > gameConfig.maxNumber) {
         displayMessage(`Please enter a valid number between ${gameConfig.minNumber} and ${gameConfig.maxNumber}`, 'red');
@@ -102,6 +109,7 @@ function isValidGuess(guess) {
     return true;
 }
 
+// Prevents duplicate guesses to maintain fair gameplay
 function isDuplicateGuess(guess) {
     if (guessedNumbers.includes(guess)) {
         displayMessage(`You already guessed that number. Try again.`, 'red');
@@ -121,7 +129,10 @@ function toggleInput() {
     elements.submitGuess.disabled = true;
 }
 
+// Updates high score if current performance is better
+// High score is based on remaining attempts (higher is better)
 function updateHighScore(attempts) {
+    // Update only if it's the first high score or better than previous
     if (highScore === '-' || attempts > parseInt(highScore)) {
         highScore = attempts;
         localStorage.setItem('numberGameHighScore', highScore);

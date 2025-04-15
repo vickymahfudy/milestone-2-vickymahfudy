@@ -1,15 +1,17 @@
 // Game Configuration
 const gameConfig = {
+    // Emoji representations for each choice
     choices: {
         rock: '✊',
         paper: '✋',
         scissors: '✌️'
     },
     defaultHand: '❔',
+    // Defines what each choice can beat
     winConditions: {
-        rock: 'scissors',
-        paper: 'rock',
-        scissors: 'paper'
+        rock: 'scissors',    // Rock crushes scissors
+        paper: 'rock',       // Paper covers rock
+        scissors: 'paper'    // Scissors cuts paper
     }
 };
 
@@ -27,17 +29,21 @@ const elements = {
 };
 
 // Game Logic Functions
+// Randomly selects computer's move from available choices
 function computerPlay() {
     const options = Object.keys(gameConfig.choices);
     return options[Math.floor(Math.random() * options.length)];
 }
 
+// Processes a single round of the game
+// Updates display, determines winner, and manages score
 function playRound(playerChoice) {
     const computerChoice = computerPlay();
     updateHandsDisplay(playerChoice, computerChoice);
     
     const gameOutcome = determineOutcome(playerChoice, computerChoice);
     
+    // Handle different game outcomes and update UI accordingly
     switch (gameOutcome) {
         case 'tie':
             displayResult(`It's a tie!`, 'yellow');
@@ -58,11 +64,14 @@ function playRound(playerChoice) {
             break;
     }
     
+    // Update score display if the round wasn't a tie
     if (gameOutcome !== 'tie') {
         updateScore();
     }
 }
 
+// Determines the outcome of a round based on player and computer choices
+// Returns 'tie', 'win', or 'lose'
 function determineOutcome(playerChoice, computerChoice) {
     if (playerChoice === computerChoice) return 'tie';
     return gameConfig.winConditions[playerChoice] === computerChoice ? 'win' : 'lose';
