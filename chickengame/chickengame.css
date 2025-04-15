@@ -212,3 +212,33 @@ button:hover {
         max-width: 300px;
     }
 }
+
+.hidden {
+    display: none;
+}
+
+#gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.crashed {
+    opacity: 0.5;
+}
+
+.moving {
+    transition: left 0.1s linear;
+}
+
+.fadeOut {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}

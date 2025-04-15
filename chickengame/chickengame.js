@@ -23,23 +23,82 @@ const chicken = document.getElementById('chicken');
 const gameArea = document.getElementById('game-area');
 const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('highScore');
+const gameOverScreen = document.getElementById('gameOverScreen');
+const startButton = document.getElementById('startButton');
 
-// Initialize high score display
-highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
+// Initialize game
+document.addEventListener('DOMContentLoaded', () => {
+    highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
+    startButton.addEventListener('click', startGame);
+});
 
 function startGame() {
     if (gameState.isGameRunning) return;
+    
+    // Hide game over screen if visible
+    if (gameOverScreen) {
+        gameOverScreen.classList.add('hidden');
+    }
+    
+    // Hide start button during gameplay
+    startButton.classList.add('hidden');
     
     gameState.isGameRunning = true;
     gameState.score = 0;
     scoreDisplay.textContent = `Score: ${gameState.score}`;
     
-    // Reset chicken position
+    // Reset chicken position and state
     chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
     chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
+    chicken.classList.remove('crashed');
+    
+    // Clear existing cars safely
+    if (gameState.activeCars.length > 0) {
+        gameState.activeCars.forEach(car => {
+            if (car && car.interval) {
+                clearInterval(car.interval);
+            }
+            if (car && car.element && car.element.parentNode) {
+                car.element.remove();
+            }
+        });
+        gameState.activeCars = [];
+    }
     
     gameState.gameInterval = setInterval(spawnCar, gameConfig.carSpawnInterval);
     document.addEventListener('keydown', moveChicken);
+}
+
+function endGame() {
+    if (!gameState.isGameRunning) return;
+    
+    gameState.isGameRunning = false;
+    clearInterval(gameState.gameInterval);
+    document.removeEventListener('keydown', moveChicken);
+    
+    // Show start button
+    startButton.classList.remove('hidden');
+    
+    // Update high score
+    if (gameState.score > gameState.highScore) {
+        gameState.highScore = gameState.score;
+        localStorage.setItem('chickenGameHighScore', gameState.highScore);
+        highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
+    }
+    
+    // Display game over message
+    alert(`Game Over! Your score: ${gameState.score}\nHigh Score: ${gameState.highScore}`);
+    
+    // Clear cars safely
+    gameState.activeCars.forEach(car => {
+        if (car && car.interval) {
+            clearInterval(car.interval);
+        }
+        if (car && car.element && car.element.parentNode) {
+            car.element.remove();
+        }
+    });
+    gameState.activeCars = [];
 }
 
 function checkScore() {
@@ -77,25 +136,30 @@ function spawnCar() {
     car.textContent = '🚗';
     car.style.transform = spawnFromRight ? 'scaleX(1)' : 'scaleX(-1)';
     
-    // Ensure minimum vertical distance between cars to prevent clustering
-    const newCarTop = Math.random() * 250 + 120; // Spawn between y=120 and y=370
+    // Adjust spawn position and timing
+    const newCarTop = Math.random() * 250 + 120;
     const existingCars = document.querySelectorAll('.car');
     
+    // Improved car spacing check
+    let canSpawn = true;
     for (let existingCar of existingCars) {
         const existingTop = parseInt(existingCar.style.top);
-        if (Math.abs(existingTop - newCarTop) < 60) { // Minimum 60px vertical gap
-            return;
+        if (Math.abs(existingTop - newCarTop) < 80) {
+            canSpawn = false;
+            break;
         }
     }
+    
+    if (!canSpawn) return;
     
     car.style.top = `${newCarTop}px`;
     car.style.left = spawnFromRight ? '1000px' : '-60px';
     
     gameArea.appendChild(car);
     
-    // Dynamic speed calculation based on current score
-    const baseSpeed = 1 + Math.random() * 5;
-    const speedMultiplier = 1 + (gameState.score / 50); // Increase speed by 2% per 50 points
+    // Adjusted speed calculations
+    const baseSpeed = 2 + Math.random() * 3;
+    const speedMultiplier = 1 + (gameState.score / 100);
     const speed = baseSpeed * speedMultiplier;
     
     const carData = {
@@ -107,7 +171,7 @@ function spawnCar() {
         const currentLeft = parseInt(car.style.left);
         updateCarPosition(carData, currentLeft, speed, spawnFromRight);
         checkCollision(car);
-    }, 12);
+    }, 16); // Changed to 16ms for smoother animation
 
     gameState.activeCars.push(carData);
 }
@@ -131,18 +195,35 @@ function endGame() {
     clearInterval(gameState.gameInterval);
     document.removeEventListener('keydown', moveChicken);
     
+    // Show start button again
+    startButton.classList.remove('hidden');
+    
+    // Update chicken appearance
+    chicken.classList.remove('active');
+    chicken.classList.add('crashed');
+    
     if (gameState.score > gameState.highScore) {
         gameState.highScore = gameState.score;
         localStorage.setItem('chickenGameHighScore', gameState.highScore);
         highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
     }
     
-    alert(`Game Over! Your score: ${gameState.score}\nHigh Score: ${gameState.highScore}`);
+    // Show game over screen
+    gameOverScreen.classList.remove('hidden');
+    gameOverScreen.innerHTML = `
+        <h2>Game Over!</h2>
+        <p>Score: ${gameState.score}</p>
+        <p>High Score: ${gameState.highScore}</p>
+        <button onclick="startGame()">Play Again</button>
+    `;
     
-    // Clear all cars
+    // Clear all cars with fade out effect
     gameState.activeCars.forEach(car => {
-        clearInterval(car.interval);
-        car.element.remove();
+        car.element.classList.add('fadeOut');
+        setTimeout(() => {
+            clearInterval(car.interval);
+            car.element.remove();
+        }, 500);
     });
     gameState.activeCars = [];
 }
