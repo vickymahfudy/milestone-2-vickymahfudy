@@ -3,32 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RevoFun – Play, Connect, and Have Fun!</title>
+    <title>▶ RevoFun – Play, Connect, and Have Fun!</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="scroll-animations.js" defer></script>
 </head>
 <body>
-    <header class="hero-header">
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">▶ RevoFun</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#games">Our Games</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="hero-header">
         <div class="header-content">
-            <h1 class="main-title">RevoFun</h1>
+            <h1 class="main-title">▶ RevoFun</h1>
             <h2 class="sub-title">Play, Connect, and Have Fun!</h2>
             <div class="header-description">
-                <p class="welcome-text">Welcome to RevoFun, the ultimate destination for casual gamers who love quick, entertaining, and engaging browser-based games!</p>
+                <p class="welcome-text">Welcome to ▶ RevoFun, the ultimate destination for casual gamers who love quick, entertaining, and engaging browser-based games!</p>
             </div>
         </div>
+        <a href="#games" class="hero-play-button">▶ PLAY NOW</a>
         <div class="header-background"></div>
     </header>
 
-    <section class="company-info">
+    <section id="about" class="company-info">
         <div>
-            <p class="welcome-text">Welcome to RevoFun, the ultimate destination for casual gamers who love quick, entertaining, and engaging browser-based games! Whether you're looking to challenge your reflexes, test your logic, or just unwind with fun mini-games, RevoFun has something for everyone.</p>
+            <p class="company-text">Welcome to ▶ RevoFun, the ultimate destination for casual gamers who love quick, entertaining, and engaging browser-based games! Whether you're looking to challenge your reflexes, test your logic, or just unwind with fun mini-games, ▶ RevoFun has something for everyone.</p>
         </div>
         
         <div class="info-grid">
             <div class="info-block animate-on-scroll fade-up">
                 <h2>🎮 Who We Are</h2>
-                <p>At RevoFun, we believe that gaming should be simple, accessible, and fun for all. Our mission is to bring exciting, easy-to-play games to your fingertips—no downloads, no hassle, just pure enjoyment. We are a team of passionate developers and designers who love creating games that spark joy and bring people together.</p>
+                <p>At ▶ RevoFun, we believe that gaming should be simple, accessible, and fun for all. Our mission is to bring exciting, easy-to-play games to your fingertips—no downloads, no hassle, just pure enjoyment. We are a team of passionate developers and designers who love creating games that spark joy and bring people together.</p>
             </div>
 
             <div class="info-block animate-on-scroll fade-up">
@@ -41,7 +54,7 @@
             </div>
 
             <div class="info-block animate-on-scroll fade-up">
-                <h2>🔥 Why RevoFun?</h2>
+                <h2>🔥 Why ▶ RevoFun?</h2>
                 <ul class="features-list">
                     <li>✔ Instant Play – No sign-ups, no downloads—just click and play!</li>
                     <li>✔ Diverse Game Collection – From puzzles to arcade-style games, we have it all.</li>
@@ -50,40 +63,111 @@
             </div>
         </div>
 
-        <p class="join-text animate-on-scroll fade-up">Join us on RevoFun and let the games begin! 🎉</p>
+        <p class="join-text animate-on-scroll fade-up">Join us on ▶ RevoFun and let the games begin! 🎉</p>
     </section>
 
-    <main class="games-container">
-        <div class="game-card animate-on-scroll fade-up">
-            <img src="assets/number-game.jpg" alt="Number Guessing Game">
-            <h2>Number Guessing Game</h2>
-            <p>Challenge yourself! Guess the correct number between 1-100 in just 3 attempts. Track your high scores and compete with yourself!</p>
-            <a href="guessingnumber/guessingnumber.html" class="play-button">Play Now</a>
-        </div>
+    <section id="games" class="games-section">
+        <h2 class="section-title">Our Games Collection</h2>
+        <div class="games-container">
+            <div class="game-card animate-on-scroll fade-up">
+                <img src="assets/number-game.jpg" alt="Number Guessing Game">
+                <h2>Number Guessing Game</h2>
+                <p>Challenge yourself! Guess the correct number between 1-100 in just 3 attempts. Track your high scores and compete with yourself!</p>
+                <a href="guessingnumber/guessingnumber.html" class="play-button">▶</a>
+            </div>
 
-        <div class="game-card animate-on-scroll fade-up">
-            <img src="assets/rps-game.jpg" alt="Rock Paper Scissors">
-            <h2>Rock Paper Scissors</h2>
-            <p>Challenge the computer in this classic game! Choose your move wisely and try to outsmart your opponent.</p>
-            <a href="rockpaperscissors/rockpaperscissors.html" class="play-button">Play Now</a>
-        </div>
+            <div class="game-card animate-on-scroll fade-up">
+                <img src="assets/rps-game.jpg" alt="Rock Paper Scissors">
+                <h2>Rock Paper Scissors</h2>
+                <p>Challenge the computer in this classic game! Choose your move wisely and try to outsmart your opponent.</p>
+                <a href="rockpaperscissors/rockpaperscissors.html" class="play-button">▶</a>
+            </div>
 
-        <div class="game-card animate-on-scroll fade-up">
-            <img src="assets/chicken-game.jpg" alt="Chicken Crossing Road">
-            <h2>Chicken Crossing Road</h2>
-            <p>Help the chicken cross the busy road while avoiding obstacles! Test your timing and reflexes in this classic arcade-style game.</p>
-            <a href="chickengame/chickengame.html" class="play-button">Play Now</a>
-        </div>
+            <div class="game-card animate-on-scroll fade-up">
+                <img src="assets/chicken-game.jpg" alt="Chicken Crossing Road">
+                <h2>Chicken Crossing Road</h2>
+                <p>Help the chicken cross the busy road while avoiding obstacles! Test your timing and reflexes in this classic arcade-style game.</p>
+                <a href="chickengame/chickengame.html" class="play-button">▶</a>
+            </div>
 
-        <div class="game-card animate-on-scroll fade-up">
-            <h2>Coming Soon</h2>
-            <p>A new exciting game is in development! Stay tuned for more updates and get ready for more fun!</p>
-            <button class="play-button" disabled>Coming Soon</button>
+            <div class="game-card animate-on-scroll fade-up">
+                <h2>Coming Soon</h2>
+                <p>A new exciting game is in development! Stay tuned for more updates and get ready for more fun!</p>
+                <button class="play-button" disabled>Coming Soon</button>
+            </div>
         </div>
-    </main>
+    </section>
+
+
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item animate-on-scroll fade-up">
+                <h3>1M+</h3>
+                <p>Active Players</p>
+            </div>
+            <div class="stat-item animate-on-scroll fade-up">
+                <h3>10+</h3>
+                <p>Games Released</p>
+            </div>
+            <div class="stat-item animate-on-scroll fade-up">
+                <h3>4.8</h3>
+                <p>User Rating</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Me</h3>
+                <a href="mailto:contact@revofun.com" class="contact-btn email-btn">
+                    📧 contact@revofun.com
+                </a>
+                <a href="tel:+15551234567" class="contact-btn phone-btn">
+                    📱 +1 (555) 123-4567
+                </a>
+                <a href="https://maps.google.com/?q=Jakarta,Indonesia" target="_blank" class="contact-btn location-btn">
+                    🌍 Jakarta, Indonesia
+                </a>
+            </div>
+            <form class="contact-form">
+                <h3>Ask Me</h3>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2025 RevoFun Hub - Browser-Based Mini Games Collection. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>▶ RevoFun</h3>
+                <p>Creating fun and engaging browser-based games for everyone.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ▶ RevoFun Hub - All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
