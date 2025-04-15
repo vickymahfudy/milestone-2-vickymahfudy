@@ -69,36 +69,67 @@ function startGame() {
     document.addEventListener('keydown', moveChicken);
 }
 
-function endGame() {
-    if (!gameState.isGameRunning) return;
-    
-    gameState.isGameRunning = false;
-    clearInterval(gameState.gameInterval);
-    document.removeEventListener('keydown', moveChicken);
-    
-    // Show start button
-    startButton.classList.remove('hidden');
-    
-    // Update high score
+// New helper function for clearing cars
+function clearCars(withFadeEffect = false) {
+    gameState.activeCars.forEach(car => {
+        if (withFadeEffect) {
+            car.element.classList.add('fadeOut');
+            setTimeout(() => {
+                clearCarData(car);
+            }, 500);
+        } else {
+            clearCarData(car);
+        }
+    });
+    gameState.activeCars = [];
+}
+
+function clearCarData(car) {
+    if (car && car.interval) {
+        clearInterval(car.interval);
+    }
+    if (car && car.element && car.element.parentNode) {
+        car.element.remove();
+    }
+}
+
+// New helper function for updating high score
+function updateHighScore() {
     if (gameState.score > gameState.highScore) {
         gameState.highScore = gameState.score;
         localStorage.setItem('chickenGameHighScore', gameState.highScore);
         highScoreDisplay.textContent = `High Score: ${gameState.highScore}`;
     }
+}
+
+// Update startGame to use the new clearCars function
+function startGame() {
+    if (gameState.isGameRunning) return;
     
-    // Display game over message
-    alert(`Game Over! Your score: ${gameState.score}\nHigh Score: ${gameState.highScore}`);
+    // Hide game over screen if visible
+    if (gameOverScreen) {
+        gameOverScreen.classList.add('hidden');
+    }
     
-    // Clear cars safely
-    gameState.activeCars.forEach(car => {
-        if (car && car.interval) {
-            clearInterval(car.interval);
-        }
-        if (car && car.element && car.element.parentNode) {
-            car.element.remove();
-        }
-    });
-    gameState.activeCars = [];
+    // Hide start button during gameplay
+    startButton.classList.add('hidden');
+    
+    gameState.isGameRunning = true;
+    gameState.score = 0;
+    scoreDisplay.textContent = `Score: ${gameState.score}`;
+    
+    // Reset chicken position and state
+    chicken.style.bottom = `${gameConfig.chickenStartPosition.bottom}px`;
+    chicken.style.left = `${gameConfig.chickenStartPosition.left}px`;
+    chicken.classList.remove('crashed');
+    
+    // Clear existing cars safely
+    if (gameState.activeCars.length > 0) {
+        clearCars();
+    }
+    
+    gameState.gameInterval = setInterval(spawnCar, gameConfig.carSpawnInterval);
+    document.addEventListener('keydown', moveChicken);
 }
 
 function checkScore() {
