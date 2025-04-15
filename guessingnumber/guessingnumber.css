@@ -228,3 +228,47 @@ body {
     bottom: 0;
     background: radial-gradient(circle at 50% 50%, rgba(121, 77, 155, 0.15) 0%, transparent 70%);
 }
+
+.game-container {
+    position: relative;
+}
+
+.game-over-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 10;
+}
+
+.hidden {
+    display: none;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.game-over {
+    opacity: 0.8;
+}
+
+.winner {
+    animation: celebrate 1s ease infinite;
+}
+
+@keyframes celebrate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}

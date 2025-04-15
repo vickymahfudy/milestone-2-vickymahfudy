@@ -20,21 +20,30 @@
         <div class="header-background"></div>
     </header>
 
-    <div class="game-container">
-        <input type="number" id="guessInput" class="game-input" min="1" max="100">
-        <button onclick="checkGuess()" id="submitGuess" class="game-button">Submit Guess</button>
-        <p id="message"></p>
+    <div class="game-container" id="gameContainer">
+        <div class="game-content">
+            <input type="number" id="guessInput" class="game-input" min="1" max="100">
+            <button onclick="checkGuess()" id="submitGuess" class="game-button">Submit Guess</button>
+            <p id="message"></p>
 
-        <div class="stats">
-            <p>Guessed Numbers: <span id="guessedNumbers">-</span></p>
-            <p>Attempts Left: <span id="attempts">0</span></p>
-            <p>High Score: <span id="highScore">-</span></p>
+            <div class="stats">
+                <p>Guessed Numbers: <span id="guessedNumbers">-</span></p>
+                <p>Attempts Left: <span id="attempts">0</span></p>
+                <p>High Score: <span id="highScore">-</span></p>
+            </div>
+            
+            <button onclick="resetGame()" class="game-button">New Game</button>
+            <br>
+            <a href="../index.html" class="home-button">Back to Home</a>
         </div>
-        
-        <button onclick="resetGame()" class="game-button">New Game</button>
-        <br>
-        <a href="../index.html" class="home-button">Back to Home</a>
-    </main>
+
+        <div id="gameOverScreen" class="hidden">
+            <div class="game-over-content">
+                <h2>Game Over!</h2>
+                <button onclick="resetGame()" class="game-button">Play Again</button>
+            </div>
+        </div>
+    </div>
 
     <script src="guessingnumber.js"></script>
 </body>

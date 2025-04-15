@@ -18,10 +18,11 @@ const elements = {
     guessedNumbers: document.getElementById('guessedNumbers'),
     message: document.getElementById('message'),
     guessInput: document.getElementById('guessInput'),
-    submitGuess: document.getElementById('submitGuess')
+    submitGuess: document.getElementById('submitGuess'),
+    gameContainer: document.getElementById('gameContainer'),
+    gameOverScreen: document.getElementById('gameOverScreen')
 };
 
-// Game Initialization
 function initializeGame() {
     targetNumber = Math.floor(Math.random() * gameConfig.maxNumber) + gameConfig.minNumber;
     attempts = gameConfig.initialAttempts;
@@ -33,8 +34,36 @@ function initializeGame() {
     elements.guessedNumbers.textContent = '-';
     elements.message.textContent = '';
     elements.guessInput.value = '';
+    
+    // Reset game state and UI
+    elements.guessInput.classList.remove('disabled');
+    elements.submitGuess.classList.remove('disabled');
     elements.guessInput.disabled = false;
     elements.submitGuess.disabled = false;
+    elements.gameOverScreen.classList.add('hidden');
+    elements.gameContainer.classList.remove('game-over');
+}
+
+function handleWin() {
+    elements.gameContainer.classList.add('winner');
+    displayMessage(`Congratulations! You found the number in ${gameConfig.initialAttempts - attempts} attempts!`, 'green');
+    toggleInput();
+    updateHighScore(attempts);
+    elements.gameOverScreen.classList.remove('hidden');
+}
+
+function handleGameOver() {
+    elements.gameContainer.classList.add('game-over');
+    displayMessage(`Game over! The number was ${targetNumber}.`, 'red');
+    toggleInput();
+    elements.gameOverScreen.classList.remove('hidden');
+}
+
+function toggleInput() {
+    elements.guessInput.classList.add('disabled');
+    elements.submitGuess.classList.add('disabled');
+    elements.guessInput.disabled = true;
+    elements.submitGuess.disabled = true;
 }
 
 // Game Logic Functions
@@ -88,17 +117,6 @@ function updateFeedback(guess) {
     }
 }
 
-function handleWin() {
-    displayMessage(`Congratulations! You found the number in ${gameConfig.initialAttempts - attempts} attempts!`, 'green');
-    toggleInput();
-    updateHighScore(attempts);
-}
-
-function handleGameOver() {
-    displayMessage(`Game over! The number was ${targetNumber}.`, 'red');
-    toggleInput();
-}
-
 // Validates user input against game rules
 // Ensures guess is a number within valid range
 function isValidGuess(guess) {
@@ -122,11 +140,6 @@ function isDuplicateGuess(guess) {
 function displayMessage(text, color) {
     elements.message.textContent = text;
     elements.message.style.color = color;
-}
-
-function toggleInput() {
-    elements.guessInput.disabled = true;
-    elements.submitGuess.disabled = true;
 }
 
 // Updates high score if current performance is better
